@@ -91,6 +91,7 @@ function Contact() {
               className="w-full"
               value={formData.nom}
               onChange={(e) => handleInputChange('nom', e.target.value)}
+              placeholder="Votre nom et/ou pseudonyme"
             />
             {errors.nom && (
               <p className="mt-1 text-sm text-red-600">{errors.nom}</p>
@@ -109,6 +110,7 @@ function Contact() {
               className="w-full"
               value={formData.email}
               onChange={(e) => handleInputChange('email', e.target.value)}
+              placeholder="nom@gmail.com"
             />
             {errors.email && (
               <p className="mt-1 text-sm text-red-600">{errors.email}</p>

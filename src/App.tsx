@@ -1,18 +1,26 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-import Home from './home/home'
-import TopNavbar from './navbar/TopNavbar'
+import { useState } from "react";
+import reactLogo from "./assets/react.svg";
+import viteLogo from "/vite.svg";
+import "./App.css";
+import TopNavbar from "./navbar/TopNavbar";
+import { BrowserRouter, Route, Routes } from "react-router";
+import Home from "./pages/Home";
+import FooterSite from "./footer/FooterSite";
+import Contact from "./pages/Contact";
 
 function App() {
-
   return (
     <>
-      <TopNavbar />
-      <Home />
+      <BrowserRouter>
+        <TopNavbar />
+        <Routes>
+          <Route path="" element={<Home />} />
+          <Route path="/contact" element={<Contact />}/>
+        </Routes>
+        <FooterSite />
+      </BrowserRouter>
     </>
-  )
+  );
 }
 
-export default App
+export default App;

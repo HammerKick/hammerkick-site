@@ -1,7 +1,7 @@
 @import "tailwindcss";
 @import 'flowbite/dist/flowbite.min.css';
 
-#root {
+body {
   color: white;
-  background-color: darkslategrey;
+  background-color: #2d3748;
 }

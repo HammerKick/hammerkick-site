@@ -1,6 +1,5 @@
 import { useNavigate } from "react-router";
 import { Button } from "flowbite-react";
-import CountUp from "react-countup";
 
 function Home() {
   let navigate = useNavigate();
@@ -26,7 +25,6 @@ function Home() {
           <div className="flex justify-center gap-4 items-center mt-4 text-xl">
             <img src="src\assets\overwatch.svg" className="w-16 h-16" />
             <img src="src\assets\smash.png" className="w-16 h-16" />
-            <img src="src\assets\dota.png" className="w-16 h-16" />
             & plus encore !
           </div> 
           <div className="flex justify-center mt-7 max-w-lg">

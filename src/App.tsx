@@ -8,6 +8,7 @@ import Home from "./pages/Home";
 import FooterSite from "./footer/FooterSite";
 import Contact from "./pages/Contact";
 import Events from "./pages/Events";
+import Projects from "./pages/Projects";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           <Route path="" element={<Home />} />
           <Route path="/contact" element={<Contact />}/>
           <Route path="/events" element={<Events />}/>
+          <Route path="/projets" element={<Projects />} />
         </Routes>
         <FooterSite />
       </BrowserRouter>

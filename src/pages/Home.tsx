@@ -23,8 +23,8 @@ function Home() {
             Commentateur, créateur de contenu et gamer
           </div>
           <div className="flex justify-center gap-4 items-center mt-4 text-xl">
-            <img src="src\assets\overwatch.svg" className="w-16 h-16" />
-            <img src="src\assets\smash.png" className="w-16 h-16" />
+            <img src="\assets\overwatch.svg" className="w-16 h-16" />
+            <img src="\assets\smash.png" className="w-16 h-16" />
             & plus encore !
           </div> 
           <div className="flex justify-center mt-7 max-w-lg">
@@ -36,7 +36,7 @@ function Home() {
       </div>
       <div className="flex flex-row gap-8 items-center justify-center mt-8">
         <div className="flex flex-col gap-1">
-          <img src="src\assets\hammerkick.jpg" />
+          <img src="\assets\hammerkick.jpg" />
           <i>Soirée Peps à l'Espot - Crédit photo : Soriya</i>
         </div>
         <div className="max-w-lg text-wrap -mt-4">
@@ -64,7 +64,7 @@ function Home() {
           place et commenter de nombreux majors et de matchs de légende.
         </div>
         <div className="flex flex-col gap-1">
-          <img src="src\assets\hammerkick5.png" className="w-sm" />
+          <img src="\assets\hammerkick5.PNG" className="w-sm" />
           <i className="text-wrap">UFA 2024 - Crédit photo : Leny Munier</i>
         </div>
       </div>

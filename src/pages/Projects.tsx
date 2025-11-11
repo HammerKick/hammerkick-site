@@ -1,12 +1,5 @@
-import { Button } from "flowbite-react";
-import { useNavigate } from "react-router";
 
 function Projects() {
-  let navigate = useNavigate();
-
-  const onClickContact = () => {
-    navigate("/contact");
-  };
 
   return (
     <>
@@ -19,7 +12,7 @@ function Projects() {
       <div className="flex flex-row gap-8 items-center justify-center mt-8">
         <div className="flex flex-col gap-1">
           <img
-            src="src\assets\Team_Peps_July_2022_allmode.png"
+            src="\assets\Team_Peps_July_2022_allmode.png"
             className="w-sm"
           />
           <i className="text-center">Logo de la Team Peps</i>
@@ -77,7 +70,7 @@ function Projects() {
           autour de cette direction artistique très "spatiale".
         </div>
         <div className="flex flex-col gap-1">
-          <img src="src\assets\star bits logo.png" className="w-sm" />
+          <img src="\assets\star bits logo.png" className="w-sm" />
           <i className="text-center">Logo de Star Bits</i>
         </div>
       </div>
@@ -86,7 +79,7 @@ function Projects() {
       </div>
       <div className="flex flex-row gap-8 items-center justify-center mt-8">
         <div className="flex flex-col gap-1">
-          <img src="src\assets\hammerclash  logo.png" className="w-sm" />
+          <img src="\assets\hammerclash  logo.png" className="w-sm" />
           <i className="text-center">Logo du Hammerclash</i>
         </div>
         <div className="max-w-lg text-wrap -mt-4">

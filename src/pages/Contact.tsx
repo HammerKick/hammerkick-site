@@ -7,21 +7,35 @@ import {
   Card,
 } from "flowbite-react";
 import { useState } from "react";
+import type { ChangeEvent } from "react";
 import { FaPerson } from "react-icons/fa6";
 import { HiMail } from "react-icons/hi";
 
+interface FormData {
+  nom: string;
+  email: string;
+  raison: string;
+  message: string;
+}
+
+interface FormErrors {
+  nom?: string;
+  email?: string;
+  message?: string;
+}
+
 function Contact() {
-  const [hasSubmitted, setHasSubmitted] = useState(false);
-  const [formData, setFormData] = useState({
+  const [hasSubmitted, setHasSubmitted] = useState<boolean>(false);
+  const [formData, setFormData] = useState<FormData>({
     nom: "",
     email: "",
     raison: "proposition-event",
     message: "",
   });
-  const [errors, setErrors] = useState({});
+  const [errors, setErrors] = useState<FormErrors>({});
 
-  const validateForm = () => {
-    const newErrors = {};
+  const validateForm = (): boolean => {
+    const newErrors: FormErrors = {};
 
     if (!formData.nom.trim()) {
       newErrors.nom = "Le nom est obligatoire";
@@ -41,7 +55,7 @@ function Contact() {
     return Object.keys(newErrors).length === 0;
   };
 
-  const onSubmit = async () => {
+  const onSubmit = async (): Promise<void> => {
     if (validateForm()) {
       try {
         const response = await fetch("https://formspree.io/f/mzzybarv", {
@@ -73,14 +87,14 @@ function Contact() {
     }
   };
 
-  const handleInputChange = (field, value) => {
+  const handleInputChange = (field: keyof FormData, value: string): void => {
     setFormData((prev) => ({
       ...prev,
       [field]: value,
     }));
 
     // Effacer l'erreur pour ce champ quand l'utilisateur commence à taper
-    if (errors[field]) {
+    if (errors[field as keyof FormErrors]) {
       setErrors((prev) => ({
         ...prev,
         [field]: "",
@@ -116,7 +130,7 @@ function Contact() {
               required
               className="w-full"
               value={formData.nom}
-              onChange={(e) => handleInputChange("nom", e.target.value)}
+              onChange={(e: ChangeEvent<HTMLInputElement>) => handleInputChange("nom", e.target.value)}
               placeholder="Votre nom et/ou pseudonyme"
             />
             {errors.nom && (
@@ -135,7 +149,7 @@ function Contact() {
               required
               className="w-full"
               value={formData.email}
-              onChange={(e) => handleInputChange("email", e.target.value)}
+              onChange={(e: ChangeEvent<HTMLInputElement>) => handleInputChange("email", e.target.value)}
               placeholder="nom@gmail.com"
             />
             {errors.email && (
@@ -154,7 +168,7 @@ function Contact() {
                   name="raison"
                   value="proposition-event"
                   checked={formData.raison === "proposition-event"}
-                  onChange={(e) => handleInputChange("raison", e.target.value)}
+                  onChange={(e: ChangeEvent<HTMLInputElement>) => handleInputChange("raison", e.target.value)}
                 />
                 <Label htmlFor="proposition-event">
                   Proposition d'évènement
@@ -166,7 +180,7 @@ function Contact() {
                   name="raison"
                   value="proposition-sponso"
                   checked={formData.raison === "proposition-sponso"}
-                  onChange={(e) => handleInputChange("raison", e.target.value)}
+                  onChange={(e: ChangeEvent<HTMLInputElement>) => handleInputChange("raison", e.target.value)}
                 />
                 <Label htmlFor="proposition-sponso">
                   Proposition de partenariat
@@ -178,7 +192,7 @@ function Contact() {
                   name="raison"
                   value="proposition-autre"
                   checked={formData.raison === "proposition-autre"}
-                  onChange={(e) => handleInputChange("raison", e.target.value)}
+                  onChange={(e: ChangeEvent<HTMLInputElement>) => handleInputChange("raison", e.target.value)}
                 />
                 <Label htmlFor="proposition-autre">Autre</Label>
               </div>
@@ -196,7 +210,7 @@ function Contact() {
               rows={8}
               className="min-h-48 w-full"
               value={formData.message}
-              onChange={(e) => handleInputChange("message", e.target.value)}
+              onChange={(e: ChangeEvent<HTMLTextAreaElement>) => handleInputChange("message", e.target.value)}
             />
             {errors.message && (
               <p className="mt-1 text-sm text-red-600">{errors.message}</p>

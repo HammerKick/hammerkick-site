@@ -24,7 +24,7 @@ function Events() {
       <div className="flex flex-row gap-8 items-center justify-center mt-8">
         <div className="flex flex-col gap-1">
           <img
-            src="\assets\Overwatch_League_logo.svg.png"
+            src="/assets/Overwatch_League_logo.svg.png"
             className="w-sm"
           />
           <i className="text-center">Logo de l'Overwatch League</i>
@@ -69,7 +69,7 @@ function Events() {
           prévu que l'aventure continue !
         </div>
         <div className="flex flex-col gap-1">
-          <img src="\assets\afo.png" className="w-sm" />
+          <img src="/assets/afo.png" className="w-sm" />
           <i className="text-center">Logo du All For One</i>
         </div>
       </div>
@@ -78,7 +78,7 @@ function Events() {
       </div>
       <div className="flex flex-row gap-8 items-center justify-center mt-8">
         <div className="flex flex-col gap-1">
-          <img src="\assets\Ultimate_Wanted_3.png" className="w-sm" />
+          <img src="/assets/Ultimate_Wanted_3.png" className="w-sm" />
           <i className="text-center">Logo de l'Ultimate Wanted 3</i>
         </div>
         <div className="max-w-lg text-wrap -mt-4">
@@ -127,7 +127,7 @@ function Events() {
           ces dernières années.
         </div>
         <div className="flex flex-col gap-1">
-          <img src="\assets\ufa2022.jpg" className="w-sm" />
+          <img src="/assets/ufa2022.jpg" className="w-sm" />
           <i className="text-center">UFA 2022</i>
         </div>
       </div>

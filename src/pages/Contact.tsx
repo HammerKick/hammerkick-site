@@ -13,51 +13,77 @@ import { HiMail } from "react-icons/hi";
 function Contact() {
   const [hasSubmitted, setHasSubmitted] = useState(false);
   const [formData, setFormData] = useState({
-    nom: '',
-    email: '',
-    raison: 'proposition-event',
-    message: ''
+    nom: "",
+    email: "",
+    raison: "proposition-event",
+    message: "",
   });
   const [errors, setErrors] = useState({});
 
   const validateForm = () => {
     const newErrors = {};
-    
+
     if (!formData.nom.trim()) {
-      newErrors.nom = 'Le nom est obligatoire';
+      newErrors.nom = "Le nom est obligatoire";
     }
-    
+
     if (!formData.email.trim()) {
-      newErrors.email = 'L\'email est obligatoire';
+      newErrors.email = "L'email est obligatoire";
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      newErrors.email = 'L\'email n\'est pas valide';
+      newErrors.email = "L'email n'est pas valide";
     }
-    
+
     if (!formData.message.trim()) {
-      newErrors.message = 'Le message est obligatoire';
+      newErrors.message = "Le message est obligatoire";
     }
-    
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
-  const onSubmit = () => {
+  const onSubmit = async () => {
     if (validateForm()) {
-      setHasSubmitted(true);
+      try {
+        const response = await fetch("https://formspree.io/f/mzzybarv", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            nom: formData.nom,
+            email: formData.email,
+            raison: formData.raison,
+            message: formData.message,
+          }),
+        });
+
+        if (response.ok) {
+          setHasSubmitted(true);
+          // Réinitialiser le formulaire
+          setFormData({
+            nom: "",
+            email: "",
+            raison: "proposition-event",
+            message: "",
+          });
+        }
+      } catch (error) {
+        console.error("Erreur:", error);
+      }
     }
   };
 
   const handleInputChange = (field, value) => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [field]: value
+      [field]: value,
     }));
-    
+
     // Effacer l'erreur pour ce champ quand l'utilisateur commence à taper
     if (errors[field]) {
-      setErrors(prev => ({
+      setErrors((prev) => ({
         ...prev,
-        [field]: ''
+        [field]: "",
       }));
     }
   };
@@ -90,7 +116,7 @@ function Contact() {
               required
               className="w-full"
               value={formData.nom}
-              onChange={(e) => handleInputChange('nom', e.target.value)}
+              onChange={(e) => handleInputChange("nom", e.target.value)}
               placeholder="Votre nom et/ou pseudonyme"
             />
             {errors.nom && (
@@ -109,7 +135,7 @@ function Contact() {
               required
               className="w-full"
               value={formData.email}
-              onChange={(e) => handleInputChange('email', e.target.value)}
+              onChange={(e) => handleInputChange("email", e.target.value)}
               placeholder="nom@gmail.com"
             />
             {errors.email && (
@@ -123,36 +149,36 @@ function Contact() {
             </Label>
             <div className="flex flex-col gap-2">
               <div className="flex gap-2 items-center">
-                <Radio 
-                  id="proposition-event" 
-                  name="raison" 
+                <Radio
+                  id="proposition-event"
+                  name="raison"
                   value="proposition-event"
-                  checked={formData.raison === 'proposition-event'}
-                  onChange={(e) => handleInputChange('raison', e.target.value)}
+                  checked={formData.raison === "proposition-event"}
+                  onChange={(e) => handleInputChange("raison", e.target.value)}
                 />
                 <Label htmlFor="proposition-event">
                   Proposition d'évènement
                 </Label>
               </div>
               <div className="flex gap-2 items-center">
-                <Radio 
-                  id="proposition-sponso" 
-                  name="raison" 
+                <Radio
+                  id="proposition-sponso"
+                  name="raison"
                   value="proposition-sponso"
-                  checked={formData.raison === 'proposition-sponso'}
-                  onChange={(e) => handleInputChange('raison', e.target.value)}
+                  checked={formData.raison === "proposition-sponso"}
+                  onChange={(e) => handleInputChange("raison", e.target.value)}
                 />
                 <Label htmlFor="proposition-sponso">
                   Proposition de partenariat
                 </Label>
               </div>
               <div className="flex gap-2 items-center">
-                <Radio 
-                  id="proposition-autre" 
-                  name="raison" 
+                <Radio
+                  id="proposition-autre"
+                  name="raison"
                   value="proposition-autre"
-                  checked={formData.raison === 'proposition-autre'}
-                  onChange={(e) => handleInputChange('raison', e.target.value)}
+                  checked={formData.raison === "proposition-autre"}
+                  onChange={(e) => handleInputChange("raison", e.target.value)}
                 />
                 <Label htmlFor="proposition-autre">Autre</Label>
               </div>
@@ -170,7 +196,7 @@ function Contact() {
               rows={8}
               className="min-h-48 w-full"
               value={formData.message}
-              onChange={(e) => handleInputChange('message', e.target.value)}
+              onChange={(e) => handleInputChange("message", e.target.value)}
             />
             {errors.message && (
               <p className="mt-1 text-sm text-red-600">{errors.message}</p>
@@ -178,7 +204,11 @@ function Contact() {
           </div>
 
           <div className="w-full flex">
-            <Button onClick={onSubmit} color="green" className="w-24 cursor-pointer">
+            <Button
+              onClick={onSubmit}
+              color="green"
+              className="w-24 cursor-pointer"
+            >
               Envoyer
             </Button>
           </div>

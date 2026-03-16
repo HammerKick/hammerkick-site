@@ -1,4 +1,4 @@
-name: HammerKick Site
+name: CI/CD Pipeline
 
 on:
   push:
@@ -11,24 +11,90 @@ on:
       - master
 
 jobs:
-  build:
-    runs-on: ubuntu-22.04
+  frontend-ci-cd:
+    name: Frontend CI/CD
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: /
+
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout du code
+        uses: actions/checkout@v4
+      
+      - name: Configuration de Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+          cache-dependency-path: './front/package-lock.json'
 
-      # ( Build to ./dist or other directory... )
+      - name: Installation des dépendances
+        run: npm install
 
-      - name: Deploy to Netlify
+      - name: Tests Unitaires
+        run: npm run test-unit
+
+      - name: Tests Fonctionnels
+        run: npm run test-functional
+
+      - name: Build de l'application
+        run: npm run build
+
+      - name: Déploiement Netlify (Production)
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         uses: nwtgck/actions-netlify@v3.0
         with:
-          publish-dir: './dist'
-          production-branch: master
+          publish-dir: './front/build'
+          production-deploy: true
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          deploy-message: "Deploy from GitHub Actions"
-          enable-pull-request-comment: false
-          enable-commit-comment: true
-          overwrites-pull-request-comment: true
         env:
-          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
-          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
-        timeout-minutes: 1
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }} # Personal access tokens
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }} # project-details
+
+  backend-ci-cd:
+    name: Backend CI/CD
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./back
+
+    steps:
+      - name: Checkout du code
+        uses: actions/checkout@v4
+      
+      - name: Configuration de Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+          cache-dependency-path: './back/package-lock.json'
+
+      - name: Installation des dépendances
+        run: npm install
+
+      - name: Tests Unitaires
+        run: npm run test-unit
+
+      - name: Tests Fonctionnels
+        run: npm run test-functional
+
+      - name: Authentification Google Cloud
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        uses: 'google-github-actions/auth@v2'
+        with:
+          credentials_json: '${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}'
+
+      - name: Configuration de Google Cloud SDK
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        uses: 'google-github-actions/setup-gcloud@v2'
+        with:
+          project_id: '${{ secrets.GCP_PROJECT_ID }}'
+
+      - name: Build Image et Push vers Google Container Registry
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        run: gcloud builds submit --tag gcr.io/${{ secrets.GCP_PROJECT_ID }}/${{ secrets.CLOUD_RUN_SERVICE_NAME }} .
+
+      - name: Déploiement Cloud Run (Production)
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        run: gcloud run deploy ${{ secrets.CLOUD_RUN_SERVICE_NAME }} --image gcr.io/${{ secrets.GCP_PROJECT_ID }}/${{ secrets.CLOUD_RUN_SERVICE_NAME }} --region ${{ secrets.GCP_REGION }} --platform managed --allow-unauthenticated

@@ -19,18 +19,22 @@ jobs:
       
       - name: Configuration de Node.js
         uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'yarn'
+          cache-dependency-path: './yarn.lock'
 
       - name: Install packages
-        run: npm install
+        run: yarn install
 
       - name: Build de l'application
-        run: npm run build
+        run: yarn build
 
       - name: Déploiement Netlify (Production)
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         uses: nwtgck/actions-netlify@v3.0
         with:
-          publish-dir: './front/build'
+          publish-dir: './dist'
           production-deploy: true
           github-token: ${{ secrets.GITHUB_TOKEN }}
         env:

@@ -3,11 +3,9 @@ name: CI/CD Pipeline
 on:
   push:
     branches:
-      - main
       - master
   pull_request:
     branches:
-      - main
       - master
 
 jobs:
@@ -21,6 +19,9 @@ jobs:
       
       - name: Configuration de Node.js
         uses: actions/setup-node@v4
+
+      - name: Install packages
+        run: npm install
 
       - name: Build de l'application
         run: npm run build

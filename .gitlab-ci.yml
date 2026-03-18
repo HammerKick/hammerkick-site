@@ -3,4 +3,4 @@ stages:
 
 testjob:
   stage: test
-  script: echo "hello world"
+  script: echo "hello world!"

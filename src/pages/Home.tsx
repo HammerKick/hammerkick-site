@@ -17,7 +17,7 @@ function Home() {
       <div className="flex items-center justify-center mt-4">
         <div className="max-w-lg flex flex-col justify-center">
           <div className="flex justify-center text-center mt-4 text-3xl font-bold">
-            Hello tout le monde, ici HammerKick!
+            Hello tout le monde, ici HammerKick !
           </div>
           <div className="flex justify-center mt-4 text-xl">
             Commentateur, créateur de contenu et gamer
